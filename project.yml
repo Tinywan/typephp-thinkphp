@@ -1,12 +1,17 @@
+name: typephp-think
 
-source:
+sources:
+  - main.php
+
+ignore:
   - app
   - config
-  - extend
   - route
+  - extend
   - view
-output: build/myapp          # 输出路径，等价于 -o
-mode: bin                    # bin / lib / ext
-optimize: 2                  # 优化级别，等价于 -O
-job: 8                       # 并行任务数
+
+output: build/myapp
+mode: bin
+optimize: 2
+job: 8
 debug: false

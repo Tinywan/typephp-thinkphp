@@ -3,6 +3,7 @@
 namespace app\controller;
 
 use app\BaseController;
+use app\model\Musics;
 
 class Index extends BaseController
 {
@@ -14,5 +15,9 @@ class Index extends BaseController
     public function hello($name = 'ThinkPHP8')
     {
         return 'hello,' . $name;
+    }
+
+    public function music(){
+        return Musics::count();
     }
 }
