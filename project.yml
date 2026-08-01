@@ -2,13 +2,29 @@ name: typephp-think
 
 sources:
   - main.php
-
-ignore:
+  - vendor/psr
+  - vendor/topthink/framework/src
+  - vendor/topthink/think-orm/src
+  - vendor/topthink/think-helper/src
+  - vendor/topthink/think-container/src
   - app
+ignore:
+  - app/provider.php
+  - app/middleware.php
+  - app/service.php
+  - app/event.php
+  - app/ExceptionHandle.php
   - config
   - route
   - extend
   - view
+  - vendor/topthink/think-helper/src/helper.php
+  - vendor/topthink/framework/src/helper.php
+  - vendor/topthink/framework/src/lang/zh-cn.php
+  - vendor/topthink/framework/src/think/view/driver/Php.php
+  - vendor/topthink/framework/src/think/exception/Handle.php
+  - vendor/topthink/think-orm/src/helper.php
+
 
 output: build/myapp
 mode: bin

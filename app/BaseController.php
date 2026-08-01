@@ -44,7 +44,7 @@ abstract class BaseController
     public function __construct(App $app)
     {
         $this->app     = $app;
-        $this->request = $this->app->request;
+        $this->request = $this->app->make('request');
 
         // 控制器初始化
         $this->initialize();
