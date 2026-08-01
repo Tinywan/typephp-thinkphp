@@ -7,6 +7,9 @@ sources:
   - vendor/topthink/think-orm/src
   - vendor/topthink/think-helper/src
   - vendor/topthink/think-container/src
+  - vendor/topthink/think-validate/src
+  - vendor/topthink/think-trace/src
+  - vendor/topthink/think-dumper/src
   - app
 ignore:
   - app/provider.php
@@ -24,6 +27,17 @@ ignore:
   - vendor/topthink/framework/src/think/view/driver/Php.php
   - vendor/topthink/framework/src/think/exception/Handle.php
   - vendor/topthink/think-orm/src/helper.php
+  - vendor/topthink/think-validate/src/helper.php
+  - vendor/topthink/think-validate/src/Validate.php
+  - vendor/topthink/think-trace/src/config.php
+  - vendor/topthink/think-trace/src/TraceDebug.php
+  - vendor/topthink/think-trace/src/Html.php
+  - vendor/topthink/think-trace/src/Console.php
+  - vendor/topthink/think-dumper/src/Connection.php
+  - vendor/topthink/think-dumper/src/Dumper.php
+  - vendor/topthink/think-dumper/src/SourceContextProvider.php
+  - vendor/topthink/think-dumper/src/ServerDumper.php
+  - vendor/topthink/think-dumper/src/helper.php
 
 
 output: build/myapp
