@@ -89,7 +89,6 @@ class Error
     {
         $error = error_get_last();
         if (!is_null($error) && $this->isFatal($error['type'])) {
-            // 将错误信息托管至think\ErrorException
             $exception = new ErrorException($error['type'], $error['message'], $error['file'], $error['line']);
 
             $this->appException($exception);

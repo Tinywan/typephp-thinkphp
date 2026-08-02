@@ -56,7 +56,7 @@ class Controller extends Dispatch
 
         if ($layer && !empty($this->option['auto_middleware'])) {
             // 自动为顶层layer注册中间件
-            $alias = $this->app->config->get('middleware.alias', []);
+            $alias = $this->app->make('config')->get('middleware.alias', []);
 
             if (isset($alias[$layer])) {
                 $this->option['middleware'] = array_merge($this->option['middleware'] ?? [], [$layer]);
@@ -67,9 +67,9 @@ class Controller extends Dispatch
         if (str_contains($controller, '.')) {
             $pos        = strrpos($controller, '.');
             $layer      = ($layer ? $layer . '.' : '') . substr($controller, 0, $pos);
-            $controller = Str::studly(substr($controller, $pos + 1));
+            $controller = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', substr($controller, $pos + 1))));
         } else {
-            $controller = Str::studly($controller);
+            $controller = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $controller)));
         }
 
         $this->actionName = strip_tags($action);

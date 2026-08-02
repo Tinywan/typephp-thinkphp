@@ -4,6 +4,10 @@ sources:
   - main.php
   - vendor/psr
   - vendor/league/mime-type-detection/src
+  - vendor/league/flysystem/src
+  - vendor/league/flysystem-local
+  - vendor/symfony/polyfill-mbstring
+  - vendor/symfony/var-dumper
   - vendor/topthink/framework/src
   - vendor/topthink/think-orm/src
   - vendor/topthink/think-helper/src
@@ -32,7 +36,6 @@ ignore:
   - vendor/topthink/think-validate/src/helper.php
   - vendor/topthink/think-validate/src/Validate.php
   - vendor/topthink/think-trace/src/config.php
-  - vendor/topthink/think-trace/src/TraceDebug.php
   - vendor/topthink/think-trace/src/Html.php
   - vendor/topthink/think-trace/src/Console.php
   - vendor/topthink/think-dumper/src/Connection.php
@@ -43,6 +46,20 @@ ignore:
   - vendor/topthink/think-filesystem/src/filesystem/Driver.php
   - vendor/topthink/think-filesystem/src/filesystem/driver/Local.php
   - vendor/league/mime-type-detection/src/FinfoMimeTypeDetector.php
+  - vendor/league/flysystem/src/CalculateChecksumFromStream.php
+  - vendor/league/flysystem/src/ProxyArrayAccessToProperties.php
+  - vendor/league/flysystem-local/LocalFilesystemAdapter.php
+  - vendor/symfony/polyfill-mbstring/bootstrap.php
+  - vendor/symfony/polyfill-mbstring/bootstrap72.php
+  - vendor/symfony/polyfill-mbstring/bootstrap80.php
+  - vendor/symfony/polyfill-mbstring/Resources
+  - vendor/symfony/var-dumper/Test/VarDumperTestTrait.php
+  - vendor/symfony/var-dumper/Caster
+  - vendor/symfony/var-dumper/Cloner/VarCloner.php
+  - vendor/symfony/var-dumper/Command
+  - vendor/symfony/var-dumper/Dumper
+  - vendor/symfony/var-dumper/Resources/functions/dump.php
+  - vendor/topthink/framework/src/think/route/dispatch/Dispatch.php
 
 
 output: build/myapp
