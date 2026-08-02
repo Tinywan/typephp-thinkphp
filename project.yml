@@ -3,6 +3,7 @@ name: typephp-think
 sources:
   - main.php
   - vendor/psr
+  - vendor/league/mime-type-detection/src
   - vendor/topthink/framework/src
   - vendor/topthink/think-orm/src
   - vendor/topthink/think-helper/src
@@ -10,6 +11,7 @@ sources:
   - vendor/topthink/think-validate/src
   - vendor/topthink/think-trace/src
   - vendor/topthink/think-dumper/src
+  - vendor/topthink/think-filesystem/src
   - app
 ignore:
   - app/provider.php
@@ -38,6 +40,9 @@ ignore:
   - vendor/topthink/think-dumper/src/SourceContextProvider.php
   - vendor/topthink/think-dumper/src/ServerDumper.php
   - vendor/topthink/think-dumper/src/helper.php
+  - vendor/topthink/think-filesystem/src/filesystem/Driver.php
+  - vendor/topthink/think-filesystem/src/filesystem/driver/Local.php
+  - vendor/league/mime-type-detection/src/FinfoMimeTypeDetector.php
 
 
 output: build/myapp
@@ -45,3 +50,5 @@ mode: bin
 optimize: 2
 job: 8
 debug: false
+cxx-flags:
+  - /bigobj
