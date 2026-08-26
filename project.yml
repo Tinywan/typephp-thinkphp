@@ -49,6 +49,9 @@ ignore:
   - vendor/symfony/var-dumper/Command
   - vendor/symfony/var-dumper/Resources/functions/dump.php
   - vendor/topthink/framework/src/think/route/dispatch/Dispatch.php
+  - vendor/topthink/think-container/src/exception/ClassNotFoundException.php
+  # 该文件来自 think-orm 4.x，依赖不存在的 think\Entity，本项目无需视图模型，故不参与编译
+  - vendor/topthink/think-orm/src/model/View.php
 
 
 output: build/myapp

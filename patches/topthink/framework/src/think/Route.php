@@ -713,7 +713,7 @@ class Route
 
         return $this->app->make('middleware')->pipeline('route')
             ->send($request)
-            ->then(function () use ($dispatch) {
+            ->then(function ($request) use ($dispatch) {
                 return $dispatch->run();
             });
     }

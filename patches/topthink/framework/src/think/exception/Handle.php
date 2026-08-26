@@ -259,8 +259,14 @@ class Handle
     {
         ob_start();
         $data = $this->convertExceptionToArray($exception);
-        //extract($data);
-        // foreach ($data as $k => $v) { $$k = $v; }
+
+        // TypePHP 不支持 extract()，改为显式赋值，保持与 extract($data) 等价
+        $code    = $data['code'] ?? 0;
+        $message = $data['message'] ?? '';
+        $traces  = $data['traces'] ?? [];
+        $datas   = $data['datas'] ?? [];
+        $tables  = $data['tables'] ?? [];
+
         include $this->app->make('config')->get('app.exception_tmpl') ?: __DIR__ . '/../../tpl/think_exception.tpl';
 
         return ob_get_clean();

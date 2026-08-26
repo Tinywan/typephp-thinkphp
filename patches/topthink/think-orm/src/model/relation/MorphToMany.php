@@ -17,7 +17,7 @@ use Closure;
 use Exception;
 use think\db\BaseQuery as Query;
 use think\db\Raw;
-use think\model\contract\Modelable as Model;
+use think\Model;
 use think\model\Pivot;
 
 /**

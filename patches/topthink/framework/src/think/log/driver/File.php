@@ -73,27 +73,32 @@ class File implements LogHandlerInterface
         $messages = [];
 
         // 日志信息封装
-        foreach ($log as $record) {
-            $type = $record->type;
-            $msg  = $record->message;
-            $time = $record->time->format($this->config['time_format']);
-            if (!is_string($msg)) {
-                $msg = var_export($msg, true);
+        foreach ($log as $type => $records) {
+            if (!is_array($records)) {
+                $records = [$records];
             }
 
-            $filename = $destination;
-            if (true === $this->config['apart_level'] || in_array($type, $this->config['apart_level'])) {
-                // 独立记录的日志级别
-                $filename = $this->getApartLevelFile($path, $type);
-            }
+            foreach ($records as $msg) {
+                if (!is_string($msg)) {
+                    $msg = var_export($msg, true);
+                }
 
-            if (!isset($messages[$filename])) {
-                $messages[$filename] = [];
-            }
+                $time = date($this->config['time_format']);
 
-            $messages[$filename][] = $this->config['json'] ?
-                json_encode(['time' => $time, 'type' => $type, 'msg' => $msg], $this->config['json_options']) :
-                sprintf($this->config['format'], $time, $type, $msg);
+                $filename = $destination;
+                if (true === $this->config['apart_level'] || in_array($type, $this->config['apart_level'])) {
+                    // 独立记录的日志级别
+                    $filename = $this->getApartLevelFile($path, $type);
+                }
+
+                if (!isset($messages[$filename])) {
+                    $messages[$filename] = [];
+                }
+
+                $messages[$filename][] = $this->config['json'] ?
+                    json_encode(['time' => $time, 'type' => $type, 'msg' => $msg], $this->config['json_options']) :
+                    sprintf($this->config['format'], $time, $type, $msg);
+            }
         }
 
         foreach ($messages as $key => $message) {

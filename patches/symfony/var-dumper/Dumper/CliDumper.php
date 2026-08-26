@@ -204,12 +204,12 @@ class CliDumper extends AbstractDumper
                 'length' => 0 <= $cut ? mb_strlen($str, 'UTF-8') + $cut : 0,
                 'binary' => $bin,
             ];
-            $str = $bin && str_contains($str, "\0") ? [$str] : explode("\n", $str);
-            if (isset($str[1]) && !isset($str[2]) && !isset($str[1][0])) {
-                unset($str[1]);
-                $str[0] .= "\n";
+            $strs = $bin && str_contains($str, "\0") ? [$str] : explode("\n", $str);
+            if (isset($strs[1]) && !isset($strs[2]) && !isset($strs[1][0])) {
+                unset($strs[1]);
+                $strs[0] .= "\n";
             }
-            $m = \count($str) - 1;
+            $m = \count($strs) - 1;
             $i = $lineCut = 0;
 
             if (self::DUMP_STRING_LENGTH & $this->flags) {
@@ -226,7 +226,7 @@ class CliDumper extends AbstractDumper
                 $this->line .= '"';
             }
 
-            foreach ($str as $s) {
+            foreach ($strs as $s) {
                 if ($i < $m) {
                     $s .= "\n";
                 }
@@ -296,7 +296,7 @@ class CliDumper extends AbstractDumper
         }
 
         if (($cursor->softRefCount || 0 < $cursor->softRefHandle) && empty($attr['cut_hash'])) {
-            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#').(0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->softRefTo), ['count' => $cursor->softRefCount]);
+            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#').(0 < $cursor->softRefHandle ? (int) $cursor->softRefHandle : (int) $cursor->softRefTo), ['count' => $cursor->softRefCount]);
         } elseif ($cursor->hardRefTo && !$cursor->refIndex && $class) {
             $prefix .= $this->style('ref', '&'.$cursor->hardRefTo, ['count' => $cursor->hardRefCount]);
         } elseif (!$hasChild && Cursor::HASH_RESOURCE === $type) {

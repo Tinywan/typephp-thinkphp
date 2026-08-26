@@ -245,7 +245,7 @@ class App extends Container
         $name = is_string($service) ? $service : $service::class;
         return array_values(array_filter($this->services, function ($value) use ($name) {
             return $value instanceof $name;
-        }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
+        }))[0] ?? null;
     }
 
     /**
@@ -519,9 +519,9 @@ class App extends Container
      */
     public function boot(): void
     {
-        array_walk($this->services, function ($service) {
+        foreach ($this->services as $service) {
             $this->bootService($service);
-        });
+        }
     }
 
     /**
@@ -647,7 +647,8 @@ class App extends Container
      */
     public function runningInConsole(): bool
     {
-        return php_sapi_name() === 'cli' || php_sapi_name() === 'phpdbg';
+        // typephp(embed) 编译产物也按命令行处理，否则异常会渲染成 HTML 页面
+        return in_array(php_sapi_name(), ['cli', 'phpdbg', 'embed']);
     }
 
     /**

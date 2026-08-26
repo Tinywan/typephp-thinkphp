@@ -1250,9 +1250,13 @@ abstract class BaseQuery
      *
      * @return mixed
      */
-    public function getOptions(): array
+    public function getOptions(string $name = '')
     {
-        return $this->options;
+        if ('' === $name) {
+            return $this->options;
+        }
+
+        return $this->options[$name] ?? null;
     }
 
     /**

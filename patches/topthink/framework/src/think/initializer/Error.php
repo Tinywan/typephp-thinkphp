@@ -88,7 +88,7 @@ class Error
     public function appShutdown(): void
     {
         $error = error_get_last();
-        if (!is_null($error) && $this->isFatal($error['type'])) {
+        if (!is_null($error) && isset($error['type']) && $this->isFatal($error['type'])) {
             $exception = new ErrorException($error['type'], $error['message'], $error['file'], $error['line']);
 
             $this->appException($exception);

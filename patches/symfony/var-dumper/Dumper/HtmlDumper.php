@@ -859,7 +859,7 @@ class HtmlDumper extends CliDumper
             $this->line .= '<samp data-depth='.($cursor->depth + 1);
             if ($cursor->refIndex) {
                 $r = Cursor::HASH_OBJECT !== $type ? 1 - (Cursor::HASH_RESOURCE !== $type) : 2;
-                $r .= $r && 0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->refIndex;
+                $r .= $r && 0 < $cursor->softRefHandle ? (int) $cursor->softRefHandle : (int) $cursor->refIndex;
 
                 $this->line .= \sprintf(' id=%s-ref%s', $this->dumpId, $r);
             }
