@@ -193,7 +193,6 @@ abstract class Dispatch
 
         if ($class->hasProperty('middleware')) {
             $reflectionProperty = $class->getProperty('middleware');
-            $reflectionProperty->setAccessible(true);
 
             $middlewares = $reflectionProperty->getValue($controller);
             $action      = $this->request->action(true);
