@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # ⚡ TypePHP × ThinkPHP 8.0 原生 AOT 编译工程
 
@@ -99,7 +99,7 @@ ignore:
   - view
   # 语法不兼容或运行时动态加载的文件列表...
 
-output: build/myapp
+output: build/typephp-server
 mode: bin
 optimize: 2        # 0: 开发快速编译 | 2: 生产极致优化 (/O2)
 job: 16            # 根据 CPU 核心数拉大并发编译进程
@@ -156,7 +156,7 @@ tpc.exe "%~dp0project.yml" > "%~dp0build_log.txt" 2>&1
 | 编译类型 | 耗时 | 说明 |
 | :--- | :--- | :--- |
 | **首次全量编译** | 约 1 ~ 3 分钟 | 转译并编译 390 个源文件，生成全局 `.obj` 缓存 |
-| **日常增量编译** | 约 2 ~ 5 秒 | 修改代码后只重编变动文件，秒级链接生成 `myapp.exe` |
+| **日常增量编译** | 约 2 ~ 5 秒 | 修改代码后只重编变动文件，秒级链接生成 `typephp-server.exe` |
 
 ## 三、 运行与验证
 
@@ -166,27 +166,38 @@ tpc.exe "%~dp0project.yml" > "%~dp0build_log.txt" 2>&1
 @echo off
 setlocal
 if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v0.6.5_windows_x86_64"
+set "PHPRC=%PHP_HOME%"
 set "PATH=%PHP_HOME%;%PATH%"
 
 cd /d %~dp0
-.\build\myapp.exe %*
+.\build\typephp-server.exe %*
 ```
 
-### 2. 环境自检运行
+### 2. 一键编译与独立打包脚本 [`package.bat`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/package.bat)
+
+脚本集成了 **“自动源码增量编译 ➔ 收集依赖 ➔ 组装独立绿色发布包”** 全流水线：
 
 ```powershell
-.\run_env.bat info
+# 1. 标准一键打包（自动先编译最新代码，再生成发布包）
+.\package.bat
+
+# 2. 极速重打（跳过编译，秒级更新 config/route/public 等静态物料）
+.\package.bat --no-build
 ```
 
-> **预期输出**：
+> **自动生成 `dist/` 独立绿色发布目录**：
 > ```text
-> PHP_VERSION: 8.5.10
-> PHP_SAPI: embed
-> php_ini_loaded_file: D:\...\php.ini
-> extension_loaded(pdo): yes
-> extension_loaded(pdo_mysql): yes
-> HTTP STATUS: 200
+> dist/
+> ├── typephp-server.exe            # 编译后的二进制机器码
+> ├── run.bat              # 便携命令行启动器
+> ├── start_server.bat     # 一键启动 Web 服务器脚本
+> ├── php.ini              # 独立便携配置
+> ├── php8ts.dll           # 运行时核心库
+> ├── phpx.dll             # C++ 运行时扩展库
+> ├── ext/                 # 依赖扩展库 (.dll)
+> └── public/              # 静态资源与前端文件
 > ```
+> 任何纯净 Windows 电脑下载解压 `dist` 目录后，直接双击 `start_server.bat` 或运行 `.\run.bat run` 即可直接跑起来！
 
 ### 3. 启动 ThinkPHP Web 服务
 
@@ -198,7 +209,7 @@ cd /d %~dp0
 .\run_env.bat run -p 8788
 
 # 3. 局域网外部访问 (监听 0.0.0.0)
-.\run_env.bat run -H 0.0.0.0 -p 8788
+.\run_env.bat run -H 0.0.0.0 -p 8000
 ```
 
 ### 4. 路由与界面访问测试
@@ -212,7 +223,7 @@ cd /d %~dp0
 
 ### 🔴 问题 1：`Failed opening required '.../vendor/autoload.php'`
 
-* **📌 故障现象**：移动项目目录或换机器运行 `myapp.exe` 时，报找不到旧路径下的 `autoload.php`。
+* **📌 故障现象**：移动项目目录或换机器运行 `typephp-server.exe` 时，报找不到旧路径下的 `autoload.php`。
 * **🔍 根本原因**：TPC 在 AOT 编译阶段将 PHP 的 `__DIR__` 静态固化为编译期的绝对路径常量。
 * ** 解决方案**：在 [`main.php`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/main.php#L6-L10) 中优先使用 `getcwd()` 动态寻找：
   ```php
@@ -226,7 +237,7 @@ cd /d %~dp0
       ...
   ```
 
-### 🔴 问题 2：`LINK : fatal error LNK1104: 无法打开文件 “.../build\myapp.exe.rsp”`
+### 🔴 问题 2：`LINK : fatal error LNK1104: 无法打开文件 “.../build\typephp-server.exe.rsp”`
 
 * **📌 故障现象**：全新克隆代码后直接编译，链接器报错退出。
 * **🔍 根本原因**：Git 默认不提交空目录，缺少目标 `build/` 文件夹导致链接器无法写入临时参数文件。
@@ -236,7 +247,7 @@ cd /d %~dp0
 
 ### 🔴 问题 3：`php.ini` 扩展目录硬编码导致运行时扩展加载失败
 
-* **📌 故障现象**：执行 `myapp.exe` 时无法连接 MySQL，`extension_loaded('pdo_mysql')` 返回 `no`。
+* **📌 故障现象**：执行 `typephp-server.exe` 时无法连接 MySQL，`extension_loaded('pdo_mysql')` 返回 `no`。
 * **🔍 根本原因**：`php.ini` 中的 `extension_dir` 写死了固定路径。
 * ** 解决方案**：
   1. [`php.ini`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/php.ini#L3) 改用 PHP 原生环境变量语法：`extension_dir="${PHP_HOME}/ext"`。
@@ -257,12 +268,12 @@ cd /d %~dp0
 
 * **📌 故障现象**：重新编译时报错，提示文件被占用。
 * **🔍 根本原因**：
-  1. 上一次运行的 `myapp.exe` 仍在后台驻留或监听端口；
+  1. 上一次运行的 `typephp-server.exe` 仍在后台驻留或监听端口；
   2. 或者上一次启动的 `build_env.bat` 仍在后台运行，占用了 `build_log.txt`。
 * ** 解决方案**：在 PowerShell 中执行强制终止并等待后台任务结束：
   ```powershell
   # 结束运行中的服务进程
-  Get-Process myapp, tpc, cl, link -ErrorAction SilentlyContinue | Stop-Process -Force
+  Get-Process typephp-server, tpc, cl, link -ErrorAction SilentlyContinue | Stop-Process -Force
   
 ### 🔴 问题 6：`PHP Warning: Unable to load dynamic library 'curl'/'mbstring'/'openssl'/'zip'`
 
@@ -298,3 +309,5 @@ cd /d %~dp0
 📖 **相关专栏教程**：[《TypePHP Windows 环境搭建与深度编译实战》](https://mp.weixin.qq.com/s/QTaIYHn9mF-HqyeCJP4JLA)
 
 </div>
+
+

@@ -278,12 +278,13 @@ class Index extends BaseController
 HTML;
     }
 
-    public function hello($name = 'ThinkPHP8')
+    public function hello($name = 'ThinkPHP8'): string
     {
         return 'hello,' . $name;
     }
 
-    public function music(){
-        return Musics::count();
+    public function music(): string
+    {
+        return '开源技术小栈, Music';
     }
 }

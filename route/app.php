@@ -15,3 +15,4 @@ Route::get('think', function () {
 });
 
 Route::get('hello/:name', 'index/hello');
+Route::get('api/v1/musics', 'index/musics');

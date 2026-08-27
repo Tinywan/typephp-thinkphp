@@ -1,7 +1,9 @@
-# 编译产物
+# 编译与打包产物
 /build/*
 !/build/.gitkeep
 !/build/php.ini
+/dist/*
+!/dist/.gitkeep
 
 # 临时日志与缓存
 build_log.txt

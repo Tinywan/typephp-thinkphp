@@ -28,4 +28,4 @@ if exist "%~dp0php.ini" copy /y "%~dp0php.ini" "%~dp0build\php.ini" >nul
 
 rem 5. Run TPC compiler
 cd /d %PHP_HOME%
-tpc.exe "%~dp0project.yml" > "%~dp0build_log.txt" 2>&1
+tpc.exe "%~dp0project.yml"

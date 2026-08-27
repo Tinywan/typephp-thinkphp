@@ -1,4 +1,4 @@
-name: typephp-think
+﻿name: typephp-think
 
 sources:
   - main.php
@@ -54,7 +54,7 @@ ignore:
   - vendor/topthink/think-orm/src/model/View.php
 
 
-output: build/myapp
+output: build/typephp-server
 mode: bin
 optimize: 2
 job: 8
