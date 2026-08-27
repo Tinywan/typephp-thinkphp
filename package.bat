@@ -11,6 +11,7 @@ if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v0.6.5_windows_x86_64"
 
 rem [Step 0] Release any potential process file locks
 taskkill /f /im typephp-server.exe >nul 2>nul
+taskkill /f /im typephp_server.exe >nul 2>nul
 taskkill /f /im myapp.exe >nul 2>nul
 taskkill /f /im tpc.exe >nul 2>nul
 
@@ -19,8 +20,8 @@ if "%~1"=="--no-build" set "SKIP_BUILD=1"
 
 if "%SKIP_BUILD%"=="1" (
     echo [1/6] Skipping build step: --no-build specified
-    if not exist "build\typephp-server.exe" (
-        echo [ERROR] build\typephp-server.exe not found! Please run without --no-build.
+    if not exist "build\typephp-server.exe" if not exist "build\typephp_server.exe" (
+        echo [ERROR] Compiled binary not found in build directory! Please run without --no-build.
         exit /b 1
     )
 ) else (
@@ -30,8 +31,8 @@ if "%SKIP_BUILD%"=="1" (
         echo [ERROR] Compilation failed! Aborting packaging.
         exit /b 1
     )
-    if not exist "build\typephp-server.exe" (
-        echo [ERROR] build\typephp-server.exe was not generated!
+    if not exist "build\typephp-server.exe" if not exist "build\typephp_server.exe" (
+        echo [ERROR] Executable was not generated in build directory!
         exit /b 1
     )
 )
@@ -44,7 +45,8 @@ mkdir "%DIST_DIR%\ext" 2>nul
 mkdir "%DIST_DIR%\public" 2>nul
 
 echo [3/6] Copying compiled executable...
-copy /y "build\typephp-server.exe" "%DIST_DIR%\" >nul
+if exist "build\typephp_server.exe" copy /y "build\typephp_server.exe" "%DIST_DIR%\typephp-server.exe" >nul
+if exist "build\typephp-server.exe" copy /y "build\typephp-server.exe" "%DIST_DIR%\typephp-server.exe" >nul
 
 echo [4/6] Copying runtime DLLs and extensions from SDK...
 copy /y "%PHP_HOME%\*.dll" "%DIST_DIR%\" >nul
