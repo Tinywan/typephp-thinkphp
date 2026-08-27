@@ -1,13 +1,23 @@
+# 编译产物
+/build/*
+!/build/.gitkeep
+!/build/php.ini
+
+# 临时日志与缓存
+build_log.txt
 *.log
-.env
-composer.phar
+/runtime/*
+!/runtime/.gitkeep
+.patches_applied
+
+# IDE & 编辑器
+.idea/
+.vscode/
+*.suo
+*.user
+*.useroscore
+*.sln.docstates
+
+# 系统临时文件
 .DS_Store
 Thumbs.db
-/.idea
-/.vscode
-/.settings
-/.buildpath
-/.project
-/build/
-/.ohmyagent/
-/build_log.txt

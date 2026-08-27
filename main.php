@@ -3,7 +3,11 @@ use think\App;
 
 function main() :void
 {
-    require __DIR__ . '/vendor/autoload.php';
+    $autoload = getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+    if (!file_exists($autoload)) {
+        $autoload = __DIR__ . '/vendor/autoload.php';
+    }
+    require $autoload;
     global $argv;
     $cmd = $argv[1] ?? '';
     if ($cmd === 'info') {
