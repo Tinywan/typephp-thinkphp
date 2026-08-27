@@ -8,7 +8,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.5.10_Embed-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
 [![Framework](https://img.shields.io/badge/ThinkPHP-8.x-29B6F6?style=for-the-badge&logoColor=white)](https://www.thinkphp.cn/)
-[![Compiler](https://img.shields.io/badge/Compiler-TypePHP_TPC_v1096-10B981?style=for-the-badge&logoColor=white)](https://typephp.com/)
+[![Compiler](https://img.shields.io/badge/Compiler-TypePHP_TPC_v0.6.5-10B981?style=for-the-badge&logoColor=white)](https://typephp.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows_x86__64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://microsoft.com/)
 
 </div>
@@ -24,7 +24,7 @@
 | :--- | :--- | :--- |
 | **操作系统** | Windows 10 / 11 `x86_64` | 宿主编译与运行平台 |
 | **C++ 编译器** | Visual Studio 2022 / Build Tools | 提供 MSVC `cl.exe` 与 `link.exe`（需勾选 "使用 C++ 的桌面开发"） |
-| **TypePHP SDK** | `tpc_v1096_windows_x86_64` | 包含 `tpc.exe`、`phpx` 与 PHP 8.5 Embed 静态库 |
+| **TypePHP SDK** | [swoole/typephp (Releases)](https://github.com/swoole/typephp/releases) | 官方 GitHub 发布包，包含 `tpc.exe`、`phpx` 与 PHP 8.5 Embed 静态库 |
 | **PHP / Composer** | PHP 8.0+ / Composer 2.x | 负责本地包管理与补丁管理（运行时完全不需要） |
 
 ### 2. 基础安装与环境配置步骤
@@ -33,20 +33,20 @@
    * 社区版免费下载地址：[Visual Studio Community 2022](https://visualstudio.microsoft.com/zh-hans/vs/community/)
    * 安装时务必勾选 **“使用 C++ 的桌面开发”**。
 
-2. **下载 TypePHP 工具包**：
-   * 从 GitHub Releases（[https://github.com/swoole/typephp/releases](https://github.com/swoole/typephp/releases)）下载 TypePHP Windows 包。
-   * 解压到本地目录，例如：`D:\workspace\tpc_v1096_windows_x86_64`。
+2. **下载 TypePHP SDK 工具包**：
+   * 直接前往 GitHub Releases 官方下载地址：👉 **[https://github.com/swoole/typephp/releases](https://github.com/swoole/typephp/releases)**
+   * 下载最新 Windows 预编译包（如 `tpc_v0.6.5_windows_x86_64.zip`），解压到本地目录，例如：`D:\workspace\tpc_v0.6.5_windows_x86_64`。
 
 3. **配置系统环境变量**：
-   * `PHP_HOME` = `D:\workspace\tpc_v1096_windows_x86_64`
-   * `PHPX_HOME` = `D:\workspace\tpc_v1096_windows_x86_64\phpx`
-   * `Path` 追加：`D:\workspace\tpc_v1096_windows_x86_64`
+   * `PHP_HOME` = `D:\workspace\tpc_v0.6.5_windows_x86_64`
+   * `PHPX_HOME` = `D:\workspace\tpc_v0.6.5_windows_x86_64\phpx`
+   * `Path` 追加：`D:\workspace\tpc_v0.6.5_windows_x86_64`
 
 4. **编译验证官方示例**：
    * 打开 **"x64 Native Tools Command Prompt for VS 2022"**（必须使用该终端，普通 CMD 找不到 MSVC 工具链；本项目中的 `build_env.bat` 已内置自动加载逻辑）。
    * 编译运行官方 Hello 示例：
      ```powershell
-     cd D:\workspace\tpc_v1096_windows_x86_64
+     cd D:\workspace\tpc_v0.6.5_windows_x86_64
      tpc.exe examples\hello.php
      hello.exe
      ```
@@ -61,7 +61,7 @@
 2. 点击 **“‘病毒和威胁防护’设置”** 下方的 **管理设置**。
 3. 找到 **“排除项”**，点击 **添加或删除排除项**，添加以下文件夹：
    * 📁 `D:\dnmp\www\TypePHP`（项目所在目录）
-   * 📁 `D:\workspace\tpc_v1096_windows_x86_64`（TPC SDK 目录）
+   * 📁 `D:\workspace\tpc_v0.6.5_windows_x86_64`（TPC SDK 目录）
 
 ## 二、 编译指南
 
@@ -115,31 +115,32 @@ cxx-flags:
 @echo off
 
 rem 1. Set environment variables (use system PHP_HOME if defined)
-if "%PHP_HOME%"=="" set PHP_HOME=D:\workspace\tpc_v1096_windows_x86_64
+if "%PHP_HOME%"=="" set PHP_HOME=D:\workspace\tpc_v0.6.5_windows_x86_64
 set PHPX_HOME=%PHP_HOME%\phpx
 set PATH=%PHP_HOME%;%PATH%
 
 rem 2. Initialize MSVC compiler environment
-where cl.exe >nul 2>&1
-if errorlevel 1 (
-    if exist "D:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" (
-        call "D:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" >nul
-    ) else if exist "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" (
-        call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" >nul
-    ) else if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul
-    ) else if exist "D:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
-        call "D:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul
-    ) else if defined VS_VCVARS64 (
-        call "%VS_VCVARS64%" >nul
-    )
+if exist "D:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" (
+    call "D:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" >nul
+) else if exist "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" (
+    call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" >nul
+) else if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul
+) else if exist "D:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" (
+    call "D:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul
+) else if defined VS_VCVARS64 (
+    call "%VS_VCVARS64%" >nul
 )
 
-rem 3. Ensure build directory and sync php.ini
+rem 3. Remove Git\usr\bin from PATH if present to avoid GNU link.exe conflict
+set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
+set PATH=%PATH:D:\Program Files\Git\usr\bin;=%
+
+rem 4. Ensure build directory and sync php.ini
 if not exist "%~dp0build" mkdir "%~dp0build"
 if exist "%~dp0php.ini" copy /y "%~dp0php.ini" "%~dp0build\php.ini" >nul
 
-rem 4. Run TPC compiler
+rem 5. Run TPC compiler
 cd /d %PHP_HOME%
 tpc.exe "%~dp0project.yml" > "%~dp0build_log.txt" 2>&1
 ```
@@ -164,7 +165,7 @@ tpc.exe "%~dp0project.yml" > "%~dp0build_log.txt" 2>&1
 ```bat
 @echo off
 setlocal
-if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v1096_windows_x86_64"
+if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v0.6.5_windows_x86_64"
 set "PATH=%PHP_HOME%;%PATH%"
 
 cd /d %~dp0
@@ -239,7 +240,7 @@ cd /d %~dp0
 * **🔍 根本原因**：`php.ini` 中的 `extension_dir` 写死了固定路径。
 * ** 解决方案**：
   1. [`php.ini`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/php.ini#L3) 改用 PHP 原生环境变量语法：`extension_dir="${PHP_HOME}/ext"`。
-  2. [`run_env.bat`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/run_env.bat#L3) 中统一注入环境变量：`if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v1096_windows_x86_64"`。
+  2. [`run_env.bat`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/run_env.bat#L3) 中统一注入环境变量：`if "%PHP_HOME%"=="" set "PHP_HOME=D:\workspace\tpc_v0.6.5_windows_x86_64"`。
   3. [`build_env.bat`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/build_env.bat) 自动同步最新的 `php.ini` 到 `build/` 供独立打包分发。
 
 ### 🔴 问题 4：`TypeError: runBuiltinServer(): Argument #2 ($port) must be of type int, string given`
@@ -263,9 +264,23 @@ cd /d %~dp0
   # 结束运行中的服务进程
   Get-Process myapp, tpc, cl, link -ErrorAction SilentlyContinue | Stop-Process -Force
   
-  # 重新执行编译
-  .\build_env.bat
+### 🔴 问题 6：`PHP Warning: Unable to load dynamic library 'curl'/'mbstring'/'openssl'/'zip'`
+
+* **📌 故障现象**：运行 `tpc.exe` 时终端弹出大量动态库加载警告。
+* **🔍 根本原因**：官方发布的 SDK 压缩包自带的 `php.ini` 残留了 CI 编译机的旧路径（如 `extension_dir=C:\tools\php\ext` 或 `extension_dir="/ext"`）。
+* ** 解决方案**：
+  打开 SDK 根目录下的 `php.ini`，将其修改为解压后的本地实际绝对路径：
+  ```ini
+  extension_dir="D:\workspace\tpc_v0.6.5_windows_x86_64\ext"
   ```
+
+### 🔴 问题 7：`link: extra operand ... Try 'link --help' for more information.`
+
+* **📌 故障现象**：编译最后一步链接时报错 `link: extra operand`。
+* **🔍 根本原因**：直接在普通终端运行未载入 MSVC 环境，`Path` 中的 Git 工具链（`C:\Program Files\Git\usr\bin\link.exe`）劫持了 Windows MSVC 链接器。
+* ** 解决方案**：
+  1. 使用 Visual Studio 提供的 **"x64 Native Tools Command Prompt for VS 2022"**；
+  2. 或直接运行本项目提供的 [`build_env.bat`](file:///D:/dnmp/www/TypePHP/typephp-thinkphp-v2/build_env.bat)（内部已集成 `vcvars64.bat` 自动激活与 MSVC 优先级修复）。
 
 ### 💡 编译性能优化综合技巧
 

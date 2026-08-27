@@ -35,17 +35,34 @@ class Index extends BaseController
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
             -webkit-font-smoothing: antialiased;
-            background: var(--paper);
+            background-color: #fbfcfe;
+            background-image:
+                linear-gradient(rgba(29, 78, 216, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 78, 216, 0.045) 1px, transparent 1px),
+                linear-gradient(rgba(29, 78, 216, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 78, 216, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
             color: var(--ink);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
+        body::before {
+            content: "";
+            position: fixed; inset: 0; z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(900px 480px at 24% -6%, rgba(29, 78, 216, 0.08), transparent 65%);
+        }
         ::selection { background: #dbeafe; }
         a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
         .mono { font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
 
-        .header { flex-shrink: 0; border-bottom: 1px solid var(--hairline); }
+        .header {
+            flex-shrink: 0; border-bottom: 1px solid var(--hairline);
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
         .header-inner {
             max-width: 1160px; margin: 0 auto; height: 64px; padding: 0 32px;
             display: flex; align-items: center; justify-content: space-between;
@@ -53,7 +70,7 @@ class Index extends BaseController
         .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); }
         .brand-mark {
             width: 28px; height: 28px; border-radius: 3px;
-            background: var(--ink); color: var(--paper);
+            background: var(--signal); color: #ffffff;
             display: flex; align-items: center; justify-content: center;
         }
         .brand-mark svg { width: 14px; height: 14px; }
@@ -87,7 +104,7 @@ class Index extends BaseController
             margin-bottom: 44px; max-width: 760px;
         }
         .dimline::before, .dimline::after {
-            content: ""; flex: 1; height: 1px; background: var(--hairline);
+            content: ""; flex: 1; height: 1px; background: rgba(29, 78, 216, 0.25);
         }
         .dimline-caption {
             font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
@@ -95,7 +112,8 @@ class Index extends BaseController
             color: var(--graphite); white-space: nowrap;
         }
         .dimline-caption b { color: var(--signal); font-weight: 500; }
-        .tagline { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 14px; }
+        .brandline { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .brandline span { color: var(--faint); font-weight: 400; margin: 0 4px; }
         .lede { font-size: 17px; color: var(--graphite); line-height: 1.8; max-width: 640px; margin-bottom: 40px; }
         .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 84px; }
         .btn {
@@ -104,8 +122,8 @@ class Index extends BaseController
             font-size: 15px; font-weight: 600; text-decoration: none;
             transition: background 0.15s ease, border-color 0.15s ease;
         }
-        .btn-dark { background: var(--ink); color: var(--paper); }
-        .btn-dark:hover { background: #000000; }
+        .btn-dark { background: var(--signal); color: #ffffff; }
+        .btn-dark:hover { background: #1e40af; }
         .btn-ghost { border: 1px solid var(--hairline); color: var(--ink); background: var(--paper); }
         .btn-ghost:hover { border-color: #c9cfd7; background: var(--wash); }
 
@@ -133,15 +151,20 @@ class Index extends BaseController
         .feature { border-top: 1px solid var(--hairline); padding-top: 22px; }
         .feature-icon {
             width: 38px; height: 38px; border-radius: 3px;
-            border: 1px solid var(--hairline); background: var(--wash);
+            border: 1px solid #d7e3fd; background: #eef4ff;
             display: flex; align-items: center; justify-content: center;
-            color: var(--ink); margin-bottom: 16px;
+            color: var(--signal); margin-bottom: 16px;
         }
         .feature-icon svg { width: 17px; height: 17px; }
         .feature h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
         .feature p { font-size: 14px; color: var(--graphite); line-height: 1.8; }
 
-        .footer { flex-shrink: 0; border-top: 1px solid var(--hairline); }
+        .footer {
+            flex-shrink: 0; border-top: 1px solid var(--hairline);
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
         .footer-inner {
             max-width: 1160px; margin: 0 auto; padding: 20px 32px;
             display: flex; align-items: center; justify-content: space-between;
@@ -155,7 +178,7 @@ class Index extends BaseController
             .wrap { padding: 56px 20px; margin: 0; }
             h1 { font-size: clamp(48px, 14vw, 64px); }
             .dimline-caption { font-size: 10px; letter-spacing: 0.08em; }
-            .tagline { font-size: 19px; }
+            .brandline { font-size: 21px; }
             .lede { font-size: 15px; }
             .actions { margin-bottom: 56px; }
             .spec { grid-template-columns: repeat(2, 1fr); margin-bottom: 56px; }
@@ -185,13 +208,13 @@ class Index extends BaseController
 
     <main class="main">
         <div class="wrap">
-            <div class="eyebrow">AOT Compiler · 开源技术小栈</div>
+            <div class="eyebrow">AOT Compiler · PHP Native</div>
             <h1>TypePHP<span class="accent">.</span></h1>
             <div class="dimline" aria-hidden="true">
                 <span class="dimline-caption">PHP 源码 <b>→</b> 原生机器码</span>
             </div>
-            <p class="tagline">高性能、自包含的纯原生 PHP Web 服务</p>
-            <p class="lede">基于 ThinkPHP 8.x 与 TypePHP AOT 编译技术打造，全量业务逻辑深度编译为原生机器码，零解释开销，毫秒级响应。</p>
+            <p class="brandline">开源技术小栈 <span>×</span> ThinkPHP 8.x</p>
+            <p class="lede">基于 TypePHP AOT 编译技术打造的高性能、自包含纯原生 Web 服务：全量业务逻辑深度编译为原生机器码，零解释开销，毫秒级响应。</p>
 
             <div class="actions">
                 <a href="/hello/world" class="btn btn-dark">测试 Hello 路由 →</a>
