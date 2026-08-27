@@ -4,10 +4,9 @@ use think\App;
 function main() :void
 {
     $autoload = getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-    if (!file_exists($autoload)) {
-        $autoload = __DIR__ . '/vendor/autoload.php';
+    if (file_exists($autoload)) {
+        require_once $autoload;
     }
-    require $autoload;
     global $argv;
     $cmd = $argv[1] ?? '';
     if ($cmd === 'info') {
