@@ -10,7 +10,6 @@
 [![Framework](https://img.shields.io/badge/ThinkPHP-8.x-29B6F6?style=for-the-badge&logoColor=white)](https://www.thinkphp.cn/)
 [![Compiler](https://img.shields.io/badge/Compiler-TypePHP_TPC_v1096-10B981?style=for-the-badge&logoColor=white)](https://typephp.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows_x86__64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://microsoft.com/)
-[![Author](https://img.shields.io/badge/Author-开源技术小栈-FF6B6B?style=for-the-badge)](https://mp.weixin.qq.com/s/QTaIYHn9mF-HqyeCJP4JLA)
 
 </div>
 
